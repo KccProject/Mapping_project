@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form for JPA Entities</title>
+</head>
+<body>
+
+    <h2>Course Form</h2>
+    <form id="courseForm">
+        <label for="cid">Course ID:</label>
+        <input type="text" id="cid" name="cid" required>
+
+        <label for="cname">Course Name:</label>
+        <input type="text" id="cname" name="cname" required>
+
+        <button type="button" onclick="submitCourse()">Submit Course</button>
+    </form>
+
+    <h2>Student Form</h2>
+    <form id="studentForm">
+        <label for="sid">Student ID:</label>
+        <input type="text" id="sid" name="sid" required>
+
+        <label for="sname">Student Name:</label>
+        <input type="text" id="sname" name="sname" required>
+
+        <button type="button" onclick="submitStudent()">Submit Student</button>
+    </form>
+
+    <script>
+        function saveMappedCourseStudent() {
+    var cid = cid
+    // course id;
+    var sid = sid
+    // student id;
+
+    var data = {
+        course: { cid: cid },
+        student: { sid: sid }
+    };
+
+    fetch('http://localhost:8080/api/saveMappedCourseStudent', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('MappedCourseStudent saved:', data);
+        alert('MappedCourseStudent saved successfully');
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert('Error saving MappedCourseStudent');
+    });
+}
+        function submitCourse() {
+            var cid = document.getElementById("cid").value;
+            var cname = document.getElementById("cname").value;
+
+            var data = {
+                cid: cid,
+                cname: cname
+            };
+
+            fetch('http://localhost:8080/api/saveCourse', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Course saved:', data);
+                alert('Course saved successfully');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Error saving course');
+            });
+        }
+
+        function submitStudent() {
+            var sid = document.getElementById("sid").value;
+            var sname = document.getElementById("sname").value;
+
+            var data = {
+                sid: sid,
+                sname: sname
+            };
+
+            fetch('http://localhost:8080/api/saveStudent', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Student saved:', data);
+                alert('Student saved successfully');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Error saving student');
+            });
+        }
+    </script>
+
+</body>
+</html>
